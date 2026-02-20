@@ -27,6 +27,25 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)     # ← can access admin?
     date_joined = models.DateTimeField(auto_now_add=True)
 
+    ROLE_CHOICES = [
+        ('student',   'Student'),
+        ('teacher',   'Teacher'),
+        ('parent',    'Parent'),
+        ('hr',        'HR'),
+        ('bursar',    'Accountant'),
+        ('head',    'Head'),
+        
+    ]
+    primary_role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        blank=True,
+        help_text="Main role — mainly for display & quick filters"
+    )
+
+    def __str__(self):
+        return self.get_full_name() or self.username or self.email
+
 
     USERNAME_FIELD = "email"                          # ← login with email, not username
     REQUIRED_FIELDS = []                              # fields asked when createsuperuser runs
