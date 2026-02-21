@@ -27,6 +27,20 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)     # ← can access admin?
     date_joined = models.DateTimeField(auto_now_add=True)
 
+
+    DEPARTMENTS = [
+        ('sciences', 'Sciences'),
+        ('languages', 'Languages'),
+        ('humanities', 'Humanities')
+    ]
+
+
+    CLASS_LEVEL = [
+        
+    ]
+
+
+
     ROLE_CHOICES = [
         ('student',   'Student'),
         ('teacher',   'Teacher'),
