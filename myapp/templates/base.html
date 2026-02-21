@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My App</title>
-</head>
+<!-- base.html -->
 <body>
+  <header>
+    <nav>
+      ...
+      <div class="user-status">
+        {% if user.is_authenticated %}
+          Hello, {{ user.get_full_name|default:user.email }} 
+          (<a href="{% url 'logout' %}">Log out</a>)
+        {% else %}
+          <a href="{% url 'login' %}">Log in</a> | 
+          <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
 
-    <h1>My School System</h1>
-    <hr>
-
-    {% block content %}
-    {% endblock %}
-
+  {% block content %}{% endblock %}
 </body>
-</html>
