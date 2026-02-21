@@ -158,7 +158,6 @@ class StudentProfile(models.Model):
     stream = models.CharField(max_length=2, blank=True)          
     guardian_name = models.CharField(max_length=150, blank=True)
     guardian_phone = models.CharField(max_length=20, blank=True)
-    date_of_admission = models.DateField(null=True)
     profile_picture = models.ImageField(upload_to='students/', blank=True, null=True)
 
     class Meta:
