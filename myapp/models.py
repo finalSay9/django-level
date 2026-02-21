@@ -102,7 +102,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     # ──────────────── Meta & Helpers ────────────────
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = [first_name]  
+    REQUIRED_FIELDS = []  
 
     objects = CustomUserManager()
 
