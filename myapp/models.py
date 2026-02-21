@@ -53,6 +53,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 
+    GENDER = [
+        ('male', 'male'),
+        ('female', 'female'),
+        ('other', 'other')
+    ]
+
+
+
     ROLE_CHOICES = [
         ('student',   'Student'),
         ('teacher',   'Teacher'),
