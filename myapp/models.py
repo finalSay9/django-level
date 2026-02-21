@@ -144,7 +144,7 @@ class StudentProfile(models.Model):
     )
     
     # Student-specific fields
-    admission_number = models.CharField(max_length=30, unique=True, blank=True)
+    
     form_level = models.CharField(
         max_length=10,
         choices=[
