@@ -24,8 +24,7 @@ SECRET_KEY = 'django-insecure-j7-rn5vdzpk*i*x2#z+3k4j+gnlh1gbbda*oh_%onaq-up$6pi
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
     "rest_framework",
-    "drf_spectacular",
+    
 ]
 
 MIDDLEWARE = [
@@ -88,10 +87,16 @@ SPECTACULAR_SETTINGS = {
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'myproject',        # Your Postgres database name
+        'USER': 'postgres',         # Your Postgres user
+        'PASSWORD': 'your-secure-password-2026',     # The password you set in docker-compose
+        'HOST': 'db',   # The container name of Postgres
+        'PORT': '5432',
     }
 }
 
@@ -138,4 +143,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "myapp.CustomUser"
+
+
 
