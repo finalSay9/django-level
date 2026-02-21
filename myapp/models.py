@@ -130,3 +130,86 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     @property
     def is_headteacher(self):
         return self.primary_role == self.Role.HEAD
+
+
+
+# ───── Role-specific profile models (OneToOne) ─────
+
+class StudentProfile(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="student_profile",
+        limit_choices_to={'primary_role': CustomUser.Role.STUDENT},
+    )
+    
+    # Student-specific fields
+    admission_number = models.CharField(max_length=30, unique=True, blank=True)
+    form_level = models.CharField(
+        max_length=10,
+        choices=[
+            ('form_1', 'Form 1'),
+            ('form_2', 'Form 2'),
+            ('form_3', 'Form 3'),
+            ('form_4', 'Form 4'),
+        ],
+        blank=True,
+    )
+    stream = models.CharField(max_length=2, blank=True)          
+    guardian_name = models.CharField(max_length=150, blank=True)
+    guardian_phone = models.CharField(max_length=20, blank=True)
+    date_of_admission = models.DateField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='students/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = "student profile"
+        verbose_name_plural = "student profiles"
+
+    def __str__(self):
+        return f"Student: {self.user.get_full_name()}"
+
+
+class TeacherProfile(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="teacher_profile",
+        limit_choices_to={'primary_role': CustomUser.Role.TEACHER},
+    )
+    
+    # Teacher-specific fields
+    employee_id = models.CharField(max_length=30, unique=True, blank=True)
+    department = models.CharField(
+        max_length=30,
+        choices=[
+            ('sciences', 'Sciences'),
+            ('languages', 'Languages'),
+            ('humanities', 'Humanities'),
+            ('technical', 'Technical / Vocational'),
+        ],
+        blank=True,
+    )
+    subjects_taught = models.ManyToManyField('Subject', blank=True, related_name='teachers') 
+    hire_date = models.DateField(null=True, blank=True)
+    qualifications = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='teachers/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = "teacher profile"
+        verbose_name_plural = "teacher profiles"
+
+    def __str__(self):
+        return f"Teacher: {self.user.get_full_name()}"
+
+
+#
+class Subject(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    short_code = models.CharField(max_length=10, blank=True)  
+    department = models.CharField(max_length=30, blank=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
