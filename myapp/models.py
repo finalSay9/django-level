@@ -28,7 +28,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
 
 
-    DEPARTMENTS = [
+    DEPARTMENT_CHOICES = [
         ('sciences', 'Sciences'),
         ('languages', 'Languages'),
         ('humanities', 'Humanities')
@@ -53,7 +53,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 
-    GENDER = [
+    GENDER_CHOICES = [
         ('male', 'male'),
         ('female', 'female'),
         ('other', 'other')
@@ -70,16 +70,37 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ('head',    'Head'),
         
     ]
+    
+    # ── Fields that use choices ──────────────────────────────
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+        blank=True,
+    )
+
     primary_role = models.CharField(
         max_length=20,
         choices=ROLE_CHOICES,
         blank=True,
-        help_text="Main role — mainly for display & quick filters"
+        help_text="Main role — used for quick display & filtering",
     )
 
-    def __str__(self):
-        return self.get_full_name() or self.username or self.email
+    department = models.CharField(
+        max_length=30,
+        choices=DEPARTMENT_CHOICES,
+        blank=True,
+        null=True,               # ← most students won't have department
+        help_text="Main department (mainly for teachers)",
+    )
 
+    # Optional: if you want faster checks in code / templates
+    @property
+    def is_teacher(self):
+        return self.primary_role == 'teacher'
+
+    @property
+    def is_student(self):
+        return self.primary_role == 'student'
 
     USERNAME_FIELD = "email"                          # ← login with email, not username
     REQUIRED_FIELDS = []                              # fields asked when createsuperuser runs
