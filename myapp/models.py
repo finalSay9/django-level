@@ -36,7 +36,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
     CLASS_LEVEL = [
-        
+        ('form_1', 1),
+        ('form_2', 2),
+        ('form_3', 3),
+        ('form_4', 4)
+    ]
+
+    SUBJECT = [
+        ('english', 'English'),
+        ('mathematics','Mathematics'),
+        ('chemistry', 'Chemistry'),
+        ('physics', 'Physics'),
+        ('computer', 'Computer'),
+        ('business', 'Business'),
     ]
 
 
