@@ -21,3 +21,15 @@ class StudentProfileSerializer(serializers.ModelSerializer):
             'guardian_name', 'guardian_phone', 'profile_picture'
         ]
 
+
+class TeacherProfileSerializer(serializers.ModelSerializer):
+    user = MinimalUserSerializer(read_only=True)
+    subjects_taught = SubjectSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = TeacherProfile
+        fields = [
+            'id', 'user', 'employee_id', 'department',
+            'subjects_taught', 'hire_date', 'qualifications',
+            'profile_picture'
+        ]
